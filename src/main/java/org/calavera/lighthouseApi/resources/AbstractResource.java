@@ -18,8 +18,19 @@ public abstract class AbstractResource {
     private static final Pattern PATTERN = Pattern.compile(
     "(\\d{4})(?:-(\\d{2}))?(?:-(\\d{2}))?(?:([Tt])?(?:(\\d{2}))?(?::(\\d{2}))?(?::(\\d{2}))?(?:\\.(\\d{3}))?)?([Zz])?(?:([+-])(\\d{2}):(\\d{2}))?");
     
-    
     public abstract Form asForm();
+    
+    public static AbstractResource instance(Node node) {
+    	AbstractResource resource = null;
+    	if (node.getNodeName().equals("project")) {
+    		resource = new Project(node);
+    	} else if (node.getNodeName().equals("ticket")) {
+    		resource = new Ticket(node);
+    	} else if (node.getNodeName().equals("changeset")) {
+    		resource = new Changeset(node);
+    	}
+    	return resource;
+    }
     
     protected String getNodeContent(Node node, String key) {
         NodeList elementList = ((Element)node).getElementsByTagName(key);
