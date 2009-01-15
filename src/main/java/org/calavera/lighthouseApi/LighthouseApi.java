@@ -90,6 +90,22 @@ public class LighthouseApi {
 		return getNodes(request, "//changeset");
 	}
 	
+	public Changeset initChangeset(int projectId) {
+	    Request request = getRequest(Method.GET,
+			String.format("%s/projects/%d/changesets/new.xml", lighthouseUrl, projectId));
+		
+		return (Changeset) getNode(request, "//changeset");
+	}
+	
+	public int postChangeset(Changeset changeset) {
+	    Request request = getRequest(Method.POST,
+			String.format("%s/projects/%d/changesets.xml", lighthouseUrl, changeset.projectId),
+			changeset.asForm().getWebRepresentation());
+
+	    Response response = getResponse(request);
+	    return response.getStatus().getCode();
+	}
+	
 	private <T extends AbstractResource>Collection<T> getNodes(Request request, String xpath) {
 		Collection<T> nodes = new ArrayList<T>();
 		

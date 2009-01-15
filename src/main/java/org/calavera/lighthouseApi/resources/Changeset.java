@@ -16,8 +16,11 @@ public class Changeset extends AbstractResource {
     public Date changedAt;
     
     public Changeset(Node node) {
-        revision = Integer.valueOf(getNodeContent(node, "revision"));
         projectId = Integer.valueOf(getNodeContent(node, "project-id"));
+        String revisionString = getNodeContent(node, "revision");
+        if (revisionString != null) {
+            revision = Integer.valueOf(revisionString);
+        }
         title = getNodeContent(node, "title");
         body = getNodeContent(node, "body");
         changes = getNodeContent(node, "changes");

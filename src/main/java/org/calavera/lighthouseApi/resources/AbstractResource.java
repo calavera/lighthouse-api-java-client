@@ -34,7 +34,8 @@ public abstract class AbstractResource {
     
     protected String getNodeContent(Node node, String key) {
         NodeList elementList = ((Element)node).getElementsByTagName(key);
-        if (elementList != null && elementList.getLength() > 0) {
+        if (elementList != null && elementList.getLength() > 0
+                && elementList.item(0).getTextContent().length() > 0) {
             return elementList.item(0).getTextContent();
         }
         return null;
@@ -68,6 +69,8 @@ public abstract class AbstractResource {
 	}
 	
 	protected static String format(Date date) {
+	    if (date == null) return null;
+	    
         StringBuilder sb = new StringBuilder();
         Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         c.setTime(date);
